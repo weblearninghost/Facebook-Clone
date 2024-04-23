@@ -1,5 +1,5 @@
 function App() {
-  return <div>welcome to frontend</div>;
+  return <div>welcome to frontend of FB</div>;
 }
 
 export default App;
