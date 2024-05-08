@@ -1,19 +1,27 @@
 const express = require('express');
 const cors = require('cors');
-// const corsOptions = {
-//   origin: 'http://localhost:8000', //frontend URL
-// };
 const app = express();
-app.use(cors()); // cors options can be passed over here
+const dotenv = require('dotenv');
+const { readdirSync } = require('fs');
+const mongoose = require('mongoose');
+dotenv.config();
+app.use(cors());
 
-app.get('/', (req, res) => {
-  res.send('Welcome from HOME!');
+mongoose
+  .connect(process.env.DB_URL, {
+    useNewUrlParser: true,
+  })
+  .then(() => {
+    console.log('Database connection successfull.');
+  })
+  .catch((err) => {
+    console.log('Error connectig DB:', err);
+  });
+
+readdirSync('./routes').map((route) => {
+  app.use('/user', require('./routes/' + route));
 });
-
-app.get('/books', (req, res) => {
-  res.send('Welcome from BOOKSsss!');
-});
-
-app.listen(8000, () => {
-  console.log('Sever is running on port 8000!');
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+  console.log(`Sever is running on port ${PORT}`);
 });
