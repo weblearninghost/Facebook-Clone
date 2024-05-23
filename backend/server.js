@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const { readdirSync } = require('fs');
 const mongoose = require('mongoose');
 dotenv.config();
+app.use(express.json());
 app.use(cors());
 
 mongoose
